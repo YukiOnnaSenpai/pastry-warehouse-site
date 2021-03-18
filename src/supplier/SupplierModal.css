@@ -1,4 +1,4 @@
-body {
+/* body {
   font-family: Arial, sans-serif;
   background: url(http://www.shukatsu-note.com/wp-content/uploads/2014/12/computer-564136_1280.jpg) no-repeat;
   background-size: cover;
@@ -93,4 +93,14 @@ h1 {
   .popup{
     width: 70%;
   }
+} */
+
+.content {
+  top: '35%';
+  left: '50%';
+  right: 'auto';
+  bottom: 'auto';
+  margin-right: '-50%';
+  width: '60%';
+  transform: 'translate(-40%, -10%)';
 }

@@ -3,14 +3,17 @@ import '../common-styles/card.css';
 import React, { useEffect, useState } from 'react';
 
 import SupplierModal from './SupplierModal';
-import { getAllSuppliers } from '../api.js'
-import { useHistory } from 'react-router-dom'
+import { getAllSuppliers } from '../api.js';
+import { useHistory } from 'react-router-dom';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus, faTrash, faPen } from "@fortawesome/free-solid-svg-icons";
 
 function Supplier() {
 
     const [suppliers, setSuppliers] = useState([]);
     const [shouldOpenModal, setShouldOpenModal] = useState(false);
     const history = useHistory();
+
 
     useEffect(() => {
         let mounted = true;
@@ -33,35 +36,41 @@ function Supplier() {
 
 
     return (
-        <div>
-            <div>
-                <button onClick={togglePopup}>Add</button>
-                <button>Edit</button>
-                <button>Delete</button>
+        <div className="card d-flex flex-wrap">
+            <div className="card-body">
+                {shouldOpenModal ?
+                    <SupplierModal isOpen={true} closeModal={closeModal}></SupplierModal>
+                    : null
+                }
+                <table className="table table-dark">
+                    <thead>
+                        <tr>
+                            <th scope="col">Redni broj</th>
+                            <th scope="col">Ulica</th>
+                            <th scope="col">Poštanski broj</th>
+                            <th scope="col">Grad</th>
+                            <th scope="col">Naziv</th>
+                            <th scope="col">Telefon</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Opcije</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {suppliers.map((item, i) =>
+                            <tr key={i}>
+                                <th scope="row" onClick={() => { history.push('/receiversBySupplier/' + item.id) }}>{item.id}</th>
+                                <td>{item.postalAddress.streetName}</td>
+                                <td>{item.postalAddress.postalCode}</td>
+                                <td>{item.postalAddress.city}</td>
+                                <td>{item.name}</td>
+                                <td>{item.phoneNumber}</td>
+                                <td>{item.email}</td>
+                                <td><FontAwesomeIcon icon={faPlus} onClick={togglePopup} /> <FontAwesomeIcon icon={faPen} onClick={togglePopup} /> <FontAwesomeIcon icon={faTrash} onClick={togglePopup} /></td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
             </div>
-
-            {shouldOpenModal ?
-                <SupplierModal isOpen={true} closeModal={closeModal}></SupplierModal>
-                : null
-            }
-            <ul>
-                {suppliers.map(item =>
-
-                    <div className="container" key={item.id}>
-
-                        <div className="card" onClick={() => { history.push('/receiversBySupplier/' + item.id) }}>
-                            Street Name: <li>{item.postalAddress.streetName}</li><br />
-                            Postal Code: <li>{item.postalAddress.postalCode}</li><br />
-                            City: <li>{item.postalAddress.city}</li><br />
-                            Name: <li>{item.name}</li><br />
-                            Phone Number: <li>{item.phoneNumber}</li><br />
-                            Email: <li>{item.email}</li><br />
-                        </div>
-
-                    </div>
-
-                )}
-            </ul>
         </div>
     );
 }

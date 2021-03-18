@@ -2,6 +2,7 @@ import Modal from 'react-modal';
 import React from 'react';
 import { postSupplier } from '../api.js'
 import { useForm } from "react-hook-form";
+import { Button, Form } from 'react-bootstrap';
 
 function SupplierModal(props) {
 
@@ -11,8 +12,8 @@ function SupplierModal(props) {
 
     const newSupplier = data => {
 
-        const postalAddress = {streetName: data.streetName, postalCode: data.postalCode, city: data.city};
-        
+        const postalAddress = { streetName: data.streetName, postalCode: data.postalCode, city: data.city };
+
         postSupplier(JSON.stringify({
             postalAddress: postalAddress,
             name: data.name,
@@ -21,75 +22,39 @@ function SupplierModal(props) {
         }));
     }
 
-
-    const customStyles = {
-        content: {
-            top: '35%',
-            left: '50%',
-            right: 'auto',
-            bottom: 'auto',
-            marginRight: '-50%',
-            width: '60%',
-            transform: 'translate(-40%, -10%)',
-        },
-    };
-
     return (
-        <div>
-
-            <Modal
-                isOpen={props.isOpen}
-                onAfterOpen={props.onAfterOpen}
-                onRequestClose={props.onRequestClose}
-                style={customStyles}
-                ariaHideApp={false}
-                contentLabel="Example Modal"
-            >
-
-                <form onSubmit={handleSubmit(newSupplier)}>
-                    <div className="popup"></div>
-                    <div className="popup\_inner">
-                        <label> Insert Street Name<br />
-                            <input
-                                name="streetName"
-                                ref={register}
-                            /></label><br />
-                        <label> Insert Postal Code <br />
-                            <input
-                                name="postalCode"
-                                ref={register}
-                            /></label><br />
-                        <label> Insert City <br />
-                            <input
-                                name="city"
-                                ref={register}
-                            /></label><br />
-                        <label> Insert Name <br />
-                            <input
-                                name="name"
-                                ref={register}
-                            /></label><br />
-                        <label> Insert Phone Number <br />
-                            <input
-                                name="phoneNumber"
-                                ref={register}
-                            /></label><br />
-                        <label> Insert Email <br />
-                            <input
-                                name="email"
-                                ref={register}
-                            /></label><br />
-                    </div>
-                    <br />
-                    <div className="button-section">
-                        <input type="submit" value="Validiraj" />&nbsp;
-                        <button onClick={props.closeModal}>close</button>
-                    </div>
-
-                </form>
-            </Modal>
-
-        </div>
+        <>
+            <div className="d-flex align-items-center justify-content-center">
+                <Modal isOpen={props.isOpen} closeModal={props.closeModal} backdrop="static"
+                    keyboard={false} ariaHideApp={false}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Dodaj dobavljaca</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Form.Group onSubmit={handleSubmit(newSupplier)}>
+                            <Form.Label>Ulica: </Form.Label>
+                            <Form.Control type="text" name="streetName" ref={register} />
+                            <Form.Label>Postanski kod: </Form.Label>
+                            <Form.Control type="text" name="postalCode" ref={register} />
+                            <Form.Label>Grad: </Form.Label>
+                            <Form.Control type="text" name="city" ref={register} />
+                            <Form.Label>Naziv: </Form.Label>
+                            <Form.Control type="text" name="name" ref={register} />
+                            <Form.Label>Broj telefona: </Form.Label>
+                            <Form.Control type="text" name="phoneNumber" ref={register} />
+                            <Form.Label>Email: </Form.Label>
+                            <Form.Control type="email" name="email" ref={register} />
+                        </Form.Group>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={props.closeModal}>
+                            Zatvori</Button>
+                        <Button variant="primary" type="submit">
+                            Scuvaj promene</Button>
+                    </Modal.Footer>
+                </Modal>
+            </div>
+        </>
     );
 }
 
